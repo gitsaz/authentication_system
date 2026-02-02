@@ -5,8 +5,86 @@
 
 {% block content %}
 
-{% with name="sazzad" %}
-<h1>Hi There! {{name}} how are you?</h1>
-{% endwith %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+        <div class="btn-group mt-auto">
+            <button type="button" class="btn btn-danger">...</button>
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Change Password</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="bg-light">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="card shadow-lg p-4">
+                <h4 class="text-center mb-4">Welcome {{ request.user.username }}</h4>
+                <div class="d-flex justify-content-center">
+                    <img style="width: 250px; height: 250px;" src="{% static 'image/check_mark.png' %}"
+                        alt="check mark">
+                </div>
+                <div class="">
+                    <p class="text-muted text-center mt-3">
+                        এটি একটি Django Authentication System প্রজেক্ট, যেখানে ব্যবহারকারীদের জন্য
+                        নিরাপদ ও সম্পূর্ণ Authentication ব্যবস্থা তৈরি করা হয়েছে।
+                        এই প্রজেক্টে Custom User Model ব্যবহার করা হয়েছে এবং আধুনিক ওয়েব অ্যাপ্লিকেশনে
+                        প্রয়োজনীয় প্রায় সব Authentication ফিচার যুক্ত করা হয়েছে।
+                    </p>
+
+                    <p class="text-muted text-center">
+                        এখানে ব্যবহারকারী Registration করতে পারে, Login ও Logout করতে পারে,
+                        নিজের Password পরিবর্তন করতে পারে এবং Email এর মাধ্যমে Password Reset করতে পারে।
+                        Login ছাড়া কোনো ব্যবহারকারী Protected Page অ্যাক্সেস করতে পারবে না।
+                        এছাড়াও Permission ও Access Control ব্যবহার করে সিস্টেমটিকে আরও Secure করা হয়েছে।
+                    </p>
+
+                    <p class="text-muted text-center">
+                        এই প্রজেক্টটি Django এর Built-in Authentication System,
+                        Class-Based Views, Generic Views, Messages Framework এবং
+                        Bootstrap ব্যবহার করে তৈরি করা হয়েছে,
+                        যাতে কোড ক্লিন, রিইউজেবল এবং রিয়েল-ওয়ার্ল্ড প্রজেক্টের মতো হয়।
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<footer class="bg-dark text-light mt-auto">
+    <div class="container py-3">
+        <div class="row">
+
+            <div class="col-md-6 text-center text-md-start">
+                <small>
+                    © {{ now|date:"Y" }} Django Authentication System
+                    <span class="text-secondary">| Built with Django & Bootstrap</span>
+                </small>
+            </div>
+
+            <div class="col-md-6 text-center text-md-end">
+                <a href="#" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+                <a href="https://www.instagram.com/s.a.z.z.a.d_rahman/?hl=en" target="_blank"><i class="fa-brands fa-instagram" style="color: #E1306C;"></i></a>
+                <small>
+                    || Developed by <strong>Sazzad</strong>
+                </small>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
 
 {% endblock content %}
