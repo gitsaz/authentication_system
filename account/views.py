@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 from .forms import UserLoginForm
+from .mixin import RedirectAuthenticatedUserMixin
 
 #view start from hare
 #home page view
@@ -13,7 +14,7 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
 
 
 #login page view
-class LoginView(generic.View):
+class LoginView(RedirectAuthenticatedUserMixin, generic.View):
     def get(self, *args, **kwargs):
         form = UserLoginForm()
         context ={
