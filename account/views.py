@@ -1,19 +1,29 @@
 from django.views import generic
+from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
-from .forms import UserLoginForm
+from .forms import (
+    UserLoginForm,
+    UserRegistrationForm
+)
 from .mixin import RedirectAuthenticatedUserMixin
 
 #view start from hare
+
 #home page view
+@method_decorator(never_cache, name='dispatch')
 class HomeView(LoginRequiredMixin, generic.TemplateView):
+    login_url = 'login'
     template_name = "account/index.html"
 
 
 #login page view
+@method_decorator(never_cache, name='dispatch')
 class LoginView(RedirectAuthenticatedUserMixin, generic.View):
     def get(self, *args, **kwargs):
         form = UserLoginForm()
@@ -52,5 +62,12 @@ class LogoutView(generic.View):
 
 
 # registration view
-class RegistrationView(generic.TemplateView):
+@method_decorator(never_cache, name="dispatch")
+class RegistrationView(generic.CreateView):
     template_name = 'account/registration.html'
+    form_class = UserRegistrationForm
+    success_url = reverse_lazy('login')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Registration Successful!")
+        return super().form_valid(form)

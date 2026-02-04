@@ -1,22 +1,60 @@
 {% extends '../base.html' %}
 {% load static %}
-{% block title  %}Registration{% endblock title %}
+
+{% block title %}Login{% endblock title %}
 
 {% block content %}
 
 <div class="bg-light">
     <div class="container">
         <div class="row justify-content-center align-items-center min-vh-100">
+
+            <!-- Responsive column -->
             <div class="col-11 col-sm-8 col-md-6 col-lg-4">
+
                 <div class="card shadow-lg rounded-2 p-4">
-                    <h3 class="text-center">Registration</h3>
-                    <form action="">
-                        <div class=" form-group my-2">
-                            <div>
-                                <label for="" class="form-label">Username</label>
+                    <h3 class="text-center mb-4">Login</h3>
+
+                    <form method="POST" action="" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group my-2">
+                            {% include './messages.html' %}
+                        </div>
+                        <div class="form-group my-2">
+                            <div class="mb-2">
+                                <label for="{{form.username.id_for_label}}" class="form-label">Username</label>
                                 {{form.username}}
                                 {{form.username.errors}}
                             </div>
+
+                            <div class="mb-2">
+                                <label for="{{form.email.id_for_label}}" class="form-label">Email</label>
+                                {{form.email}}
+                                {{form.email.errors}}
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="{{form.phone.id_for_label}}" class="form-label">Phone Number</label>
+                                {{form.phone}}
+                                {{form.phone.errors}}
+                            </div>
+
+                            <div class="from-group mb-2">
+                                <label class="form-label" for="password1">Password</label>
+                                {{form.password}}
+                                {{form.password.errors}}
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="password2" class="form-label">Confirm Password</label>
+                                <input class="form-control" type="password" name="password2">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            Registration
+                        </button>
+                        <div class="text-center pt-2">
+                            <p class="my-0">have an account? please <a href="{% url 'login' %}" style="text-decoration: none;">Login</a></p>
                         </div>
                     </form>
                 </div>
