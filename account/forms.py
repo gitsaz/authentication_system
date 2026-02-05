@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
 
 class UserLoginForm(forms.Form):
@@ -25,10 +26,8 @@ class UserRegistrationForm(forms.ModelForm):
         widget=forms.PasswordInput
     )
     
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
         for field in self.fields:
             self.fields[field].widget.attrs.update({"class":"form-control"})
             
@@ -47,6 +46,8 @@ class UserRegistrationForm(forms.ModelForm):
         
         if password != password2:
             raise forms.ValidationError("Password do not match")
+        if len(password) < 8:
+            raise forms.ValidationError("Password must be 8 character")
         
         return password
     

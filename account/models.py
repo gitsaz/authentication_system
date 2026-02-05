@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
 from .manages import CustomUserManager
 
@@ -15,11 +16,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     email = models.EmailField(
         max_length=150,
-        unique=True
+        unique=True,   
     )
-    phone = models.CharField(
-        max_length=15,
-        unique=True
+    phone = PhoneNumberField(
+        unique=True,
+        region = None
     )
     
     is_staff = models.BooleanField(default=False)
