@@ -129,3 +129,13 @@ AUTHENTICATION_BACKENDS = [
     'account.backends.CustomBackendModel',
     'django.contrib.auth.backends.ModelBackend'
 ]
+
+# password reset by email
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'        
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'sazzad@gmail.com'
+EMAIL_HOST_PASSWORD = 'psgt jwmr twxd buwd' 
+DEFAULT_FROM_EMAIL = 'sazzad@gmail.com'

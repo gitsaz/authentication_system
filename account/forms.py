@@ -28,6 +28,7 @@ class UserRegistrationForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
         for field in self.fields:
             self.fields[field].widget.attrs.update({"class":"form-control"})
             
@@ -59,3 +60,48 @@ class UserRegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+    
+class PasswordChangeForm(forms.Form):
+    current_password = forms.CharField(
+        max_length=150,
+        widget=forms.PasswordInput
+    )
+    new_password = forms.CharField(
+        max_length=150,
+        widget=forms.PasswordInput
+    )
+    confirm_password = forms.CharField(
+        max_length=150,
+        widget=forms.PasswordInput
+    )
+    
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class":"form-control"})
+         
+         
+    def clean_current_password(self, *args, **kwargs):
+        current_password = self.cleaned_data.get('current_password')
+        
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError("Incorrect Password")
+        
+        return current_password
+        
+        
+    def clean_new_password(self, *args, **kwargs):
+        new_password = self.cleaned_data.get('new_password')
+        confirm_password = self.data.get('confirm_password')   
+        
+        if new_password != confirm_password:
+            raise forms.ValidationError("Password do not match")
+        
+        if len(new_password) < 8:
+            raise forms.ValidationError("Password must be 8 characters")
+        
+        return new_password
