@@ -6,9 +6,10 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
+
 from django.contrib.auth.views import(
     PasswordResetView,
-    PasswordChangeDoneView,
+    PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView
 )
@@ -16,7 +17,9 @@ from django.contrib.auth.views import(
 from .forms import (
     UserLoginForm,
     UserRegistrationForm,
-    PasswordChangeForm
+    PasswordChangeForm,
+    CustomPasswordResetForm,
+    PasswordResetConfirmForm
 )
 from .mixin import RedirectAuthenticatedUserMixin
 
@@ -102,7 +105,15 @@ class ChangePassword(LoginRequiredMixin, generic.FormView):
         return super().form_valid(form)
     
     
-    
+# password reset view 
 class UserPasswordResetView(PasswordResetView):
     template_name = 'account/password_reset.html'
+    form_class = CustomPasswordResetForm
     
+# password reset done view
+class UserPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'account/custom_password_reset_done.html'
+    
+class UserPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'account/password_reset_confirm.html'
+    form_class = PasswordResetConfirmForm

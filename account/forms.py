@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.forms import PasswordResetForm
 
 User = get_user_model()
 
@@ -105,3 +105,25 @@ class PasswordChangeForm(forms.Form):
             raise forms.ValidationError("Password must be 8 characters")
         
         return new_password
+    
+    
+# password reset form override
+class CustomPasswordResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class":"form-control"})
+            
+            
+    def send_mail(self, subject_template_name, email_template_name, context, from_email, to_email, html_email_template_name):
+        return super().send_mail(subject_template_name, email_template_name, context, from_email, to_email, html_email_template_name)
+    
+
+class PasswordResetConfirmForm:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class":"form-control"})
+        

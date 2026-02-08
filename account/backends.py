@@ -16,8 +16,7 @@ class CustomBackendModel(ModelBackend):
     
     def get_user(self, user_id):
         try:
-            user = User.objects.get(id=user_id)
+            return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return None
         
-        return None
