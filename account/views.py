@@ -19,7 +19,7 @@ from .forms import (
     UserRegistrationForm,
     PasswordChangeForm,
     CustomPasswordResetForm,
-    PasswordResetConfirmForm
+    ResetPasswordForm
 )
 from .mixin import RedirectAuthenticatedUserMixin
 
@@ -113,7 +113,14 @@ class UserPasswordResetView(PasswordResetView):
 # password reset done view
 class UserPasswordResetDoneView(PasswordResetDoneView):
     template_name = 'account/custom_password_reset_done.html'
-    
+
+
+#PasswordResetConfirmView 
 class UserPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'account/password_reset_confirm.html'
-    form_class = PasswordResetConfirmForm
+    form_class = ResetPasswordForm
+    success_url = reverse_lazy('login')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Password reset successful!")
+        return super().form_valid(form)

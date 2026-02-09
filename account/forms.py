@@ -115,15 +115,53 @@ class CustomPasswordResetForm(PasswordResetForm):
         for field in self.fields:
             self.fields[field].widget.attrs.update({"class":"form-control"})
             
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError("You are not registered with this email")
+        return email
             
     def send_mail(self, subject_template_name, email_template_name, context, from_email, to_email, html_email_template_name):
         return super().send_mail(subject_template_name, email_template_name, context, from_email, to_email, html_email_template_name)
     
 
-class PasswordResetConfirmForm:
-    def __init__(self, *args, **kwargs):
+
+class ResetPasswordForm(forms.Form):
+    new_password1 = forms.CharField(
+        max_length=150,
+        widget=forms.PasswordInput
+    )
+    new_password2 = forms.CharField(
+        max_length=150,
+        widget=forms.PasswordInput
+    )
+    
+    
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
         super().__init__(*args, **kwargs)
         
         for field in self.fields:
             self.fields[field].widget.attrs.update({"class":"form-control"})
         
+        
+        
+    def clean_new_password1(self, *args, **kwargs):
+        new_password = self.cleaned_data.get('new_password1')
+        confirm_password = self.data.get('new_password2')   
+        
+        if new_password != confirm_password:
+            raise forms.ValidationError("Password do not match")
+        
+        if len(new_password) < 8:
+            raise forms.ValidationError("Password must be 8 characters")
+        
+        return new_password
+    
+    def save(self, commit=True, *args, **kwargs):
+        self.user.set_password(self.cleaned_data.get('new_password1'))
+        
+        if commit:
+            self.user.save()
+        return User
+    
