@@ -33,11 +33,6 @@ It covers the full authentication lifecycle — from user registration to secure
 - Writing cleaner, scalable CBV-based views
 - Structuring a real-world Django project
 
-
-## Screenshots
-
-![alt text](login-project-page1.png)
-
 ## Contact
 ### Nazmul Alam Sazzad
 LinkedIn => [My LinkedIn Profile](https://www.linkedin.com/in/sazzadur-rahman-4272b32a3/)
